@@ -15,12 +15,30 @@ const background = new Sprite({
   imageSrc: "/background.png",
 });
 
+const shop = new Sprite({
+  position: {
+    x: 600,
+    y: 127,
+  },
+  imageSrc: "/shop.png",
+  scale: 2.75,
+  framesMax: 6,
+});
+
 const player = new Fighter({
+  //create player
   position: { x: 0, y: 0 },
   velocity: { x: 0, y: 10 },
   offset: {
     x: 0,
     y: 0,
+  },
+  imageSrc: "/samuraiMack/Idle.png",
+  framesMax: 8, //number of frame
+  scale: 2.5,
+  offset: {
+    x: 210,
+    y: 157,
   },
 });
 
@@ -67,8 +85,9 @@ function animate() {
   context.fillStyle = "black";
   context.fillRect(0, 0, canvas.width, canvas.height);
   background.update(); //this display the background
+  shop.update();
   player.update();
-  enemy.update();
+  // enemy.update();
 
   //when we are looping throug the animation this if statement listens if the key is pressed or not
 
