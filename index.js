@@ -67,6 +67,10 @@ const player = new Fighter({
     },
     takeHit: {
       imageSrc: "/samuraiMack/Take Hit - white silhouette.png",
+      framesMax: 4,
+    },
+    death: {
+      imageSrc: "/samuraiMack/Death.png",
       framesMax: 6,
     },
   },
@@ -124,6 +128,10 @@ const enemy = new Fighter({
     takeHit: {
       imageSrc: "./kenji/Take hit.png",
       framesMax: 3,
+    },
+    death: {
+      imageSrc: "./kenji/Death.png",
+      framesMax: 7,
     },
   },
   attackBox: {
@@ -260,44 +268,51 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    //the d key moves it right
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    //the a key moves it left
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    //the w key moves it up(jump)
-    case "w":
-      player.velocity.y = -20;
+  if (!player.dead) {
+    //if the characte is not dead run the envent listener
 
-      break;
-    case " ":
-      player.attack(); //player attack
-      break;
+    switch (event.key) {
+      //the d key moves it right
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      //the a key moves it left
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      //the w key moves it up(jump)
+      case "w":
+        player.velocity.y = -20;
 
-    //arrow
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
-    //the a key moves it left
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
-    //the w key moves it up(jump)
-    case "ArrowUp":
-      enemy.velocity.y = -20;
+        break;
+      case " ":
+        player.attack(); //player attack
+        break;
+    }
+  }
+  if (!enemy.dead) {
+    switch (event.key) {
+      //arrow
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
+      //the a key moves it left
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
+      //the w key moves it up(jump)
+      case "ArrowUp":
+        enemy.velocity.y = -20;
 
-      break;
-    case "ArrowDown":
-      enemy.attack();
-      break;
+        break;
+      case "ArrowDown":
+        enemy.attack();
+        break;
+    }
   }
 });
 
