@@ -76,6 +76,40 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
+
+  imageSrc: "/kenji/Idle.png",
+  framesMax: 4, //number of frame
+  scale: 2.5,
+  offset: {
+    x: 210,
+    y: 168,
+  },
+  sprites: {
+    idle: {
+      imageSrc: "/kenji/Idle.png",
+      framesMax: 4,
+    },
+    run: {
+      imageSrc: "/kenji/Run.png",
+      framesMax: 8,
+      image: new Image(),
+    },
+    jump: {
+      imageSrc: "/kenji/Jump.png",
+      framesMax: 2,
+      // image: new Image(),
+    },
+
+    fall: {
+      imageSrc: "/kenji/Fall.png",
+      framesMax: 2,
+    },
+
+    attack1: {
+      imageSrc: "/kenji/Attack1.png",
+      framesMax: 4,
+    },
+  },
 });
 
 enemy.draw();
@@ -113,7 +147,7 @@ function animate() {
   background.update(); //this display the background
   shop.update();
   player.update();
-  // enemy.update();
+  enemy.update();
 
   //when we are looping throug the animation this if statement listens if the key is pressed or not
 
@@ -129,6 +163,7 @@ function animate() {
     player.velocity.x = 5;
     player.switchSprite("run");
   }
+  //jump
   if (player.velocity.y < 0) {
     player.switchSprite("jump");
   } else if (player.velocity.y > 0) {
@@ -138,8 +173,19 @@ function animate() {
   //enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprite("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprite("run");
+  } else {
+    enemy.switchSprite("idle");
+  }
+  //jump
+
+  if (player.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  } else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
   }
   if (
     rectangularCollision({
@@ -213,7 +259,7 @@ window.addEventListener("keydown", (event) => {
 
       break;
     case "ArrowDown":
-      enemy.isAttacking = true;
+      enemy.attack();
       break;
   }
 });
