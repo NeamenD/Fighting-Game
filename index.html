@@ -7,7 +7,55 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <canvas></canvas>
+    <!-- container-div -->
+    <div id="container-div">
+      <div id="main-div">
+        <!-- player health -->
+        <div
+          style="
+            position: relative;
+            height: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+          "
+        >
+          <!-- enemy health -->
+          <div
+            style="background-color: yellow; height: 30px; width: 100%"
+          ></div>
+          <div
+            id="playerHealth"
+            style="
+              position: absolute;
+              background: blue;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              width: 100%;
+            "
+          ></div>
+        </div>
+        <!-- timer -->
+        <div id="timmer"></div>
+        <div style="position: relative; height: 30px; width: 100%">
+          <!-- enemy health -->
+          <div style="background-color: yellow; height: 30px"></div>
+          <div
+            id="enemyHealth"
+            style="
+              position: absolute;
+              background: blue;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+            "
+          ></div>
+        </div>
+      </div>
+      <canvas></canvas>
+    </div>
 
     <script src="index.js"></script>
   </body>
