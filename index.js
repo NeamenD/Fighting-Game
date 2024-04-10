@@ -65,6 +65,18 @@ const player = new Fighter({
       imageSrc: "/samuraiMack/Attack1.png",
       framesMax: 6,
     },
+    takeHit: {
+      imageSrc: "/samuraiMack/Take Hit - white silhouette.png",
+      framesMax: 6,
+    },
+  },
+  attackBox: {
+    offset: {
+      x: 100,
+      y: 50,
+    },
+    width: 160,
+    height: 50,
   },
 });
 
@@ -109,6 +121,18 @@ const enemy = new Fighter({
       imageSrc: "/kenji/Attack1.png",
       framesMax: 4,
     },
+    takeHit: {
+      imageSrc: "./kenji/Take hit.png",
+      framesMax: 3,
+    },
+  },
+  attackBox: {
+    offset: {
+      x: -170,
+      y: 50,
+    },
+    width: 175,
+    height: 50,
   },
 });
 
@@ -187,17 +211,24 @@ function animate() {
   } else if (enemy.velocity.y > 0) {
     enemy.switchSprite("fall");
   }
+  //detect for collision & enemy gers hit
   if (
     rectangularCollision({
       rectangle1: player,
       rectangle2: enemy,
     }) && //collision detection
-    player.isAttacking
+    player.isAttacking &&
+    player.framesCurrent === 4
   ) {
     //player attack
+    enemy.takeHit();
     player.isAttacking = false;
-    enemy.health -= 10;
+
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+  }
+  //if player misses
+  if (player.isAttacking && player.framesCurrent === 4) {
+    player.isAttacking = false;
   }
 
   //collision when enemy attacks
@@ -206,12 +237,18 @@ function animate() {
       rectangle1: enemy,
       rectangle2: player,
     }) && //collision detection
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.framesCurrent === 2
   ) {
     //attack
+    player.takeHit();
     enemy.isAttacking = false;
-    player.health -= 10;
     document.querySelector("#playerHealth").style.width = player.health + "%";
+  }
+  //if enemy misses
+  if (enemy.isAttacking && enemy.framesCurrent === 2) {
+    //the//sword ataack
+    enemy.isAttacking = false;
   }
 
   //end the game based on health
